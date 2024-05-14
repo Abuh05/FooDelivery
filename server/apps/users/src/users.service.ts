@@ -3,12 +3,16 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto, RegisterDto } from './dto/user.dto';
+import { PrismaService } from '../../../prisma/Prisma.Service';
 
 @Injectable()
 export class UsersService {
+ getHello(): string {
+   throw new Error('Method not implemented.');
+ }
  constructor(
   private readonly jwtService: JwtService,
-  //private readonly prisma:
+  private readonly prisma:PrismaService,
   private readonly configService: ConfigService,
  ){}
 
@@ -18,7 +22,7 @@ export class UsersService {
   const {name, email, password} = registerDto;
 
   const user = {
-    name,
+    name, 
     email,
     password,
   }
@@ -33,5 +37,11 @@ export class UsersService {
     password,
   }
   return user
+ }
+
+
+ //Get All Users Service
+ async getUsers(){
+  return this.prisma.user.findMany({});
  }
 }
